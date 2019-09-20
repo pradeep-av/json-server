@@ -39,7 +39,12 @@ module.exports = (db, opts = { foreignKeySuffix: 'Id', _isFake: false }) => {
 
   // Expose render
   router.render = (req, res) => {
-    res.jsonp(res.locals.data)
+    if (_.isArray(res.locals.data)) {
+      return res.jsonp({
+        members: res.locals.data
+      })
+    }
+    return res.jsonp(res.locals.data)
   }
 
   // GET /db
